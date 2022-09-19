@@ -19,7 +19,7 @@ export default function ContactsList({
               key={id}
               name={name}
               number={number}
-              removeContact={() => deleteContact(id)}
+              removeContact={() => deleteContact(id, name)}
             />
           );
         })}

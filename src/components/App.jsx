@@ -16,10 +16,28 @@ export default class App extends Component {
     filter: '',
   };
 
+  componentDidMount() {
+    const parsedContacts = JSON.parse(localStorage.getItem('contacts'));
+
+    if (parsedContacts) {
+      this.setState({
+        contacts: parsedContacts,
+      });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { contacts } = this.state;
+
+    if (contacts !== prevState.contacts) {
+      localStorage.setItem('contacts', JSON.stringify(contacts));
+    }
+  }
+
   addContact = data => {
     if (this.isDuplicateContact(data)) {
       return Notify.info(
-        `${data.name}: ${data.number} is already on your list`
+        `${data.name}: ${data.number} is already on your contact list`
       );
     }
     const contact = {
@@ -45,13 +63,14 @@ export default class App extends Component {
     );
   };
 
-  removeContact = id => {
+  removeContact = (id, name) => {
     this.setState(prevState => {
       const newContact = prevState.contacts.filter(item => item.id !== id);
       return {
         contacts: newContact,
       };
     });
+    Notify.info(`${name} has been deleted`);
   };
 
   isDuplicateContact({ name, number }) {

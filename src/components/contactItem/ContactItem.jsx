@@ -8,7 +8,7 @@ export default function ContactItem({ name, number, removeContact, id }) {
       <Text>
         {name}: {number}
       </Text>
-      <BtnDelete type="button" onClick={() => removeContact(id)}>
+      <BtnDelete type="button" onClick={() => removeContact(id, name)}>
         <RiDeleteBinLine />
       </BtnDelete>
     </Item>
